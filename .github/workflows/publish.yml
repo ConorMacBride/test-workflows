@@ -45,7 +45,7 @@ jobs:
           CIBW_ARCH: ${{ matrix.CIBW_ARCH }}
       - name: Setup aarch64
         if: ${{ matrix.CIBW_ARCH == 'aarch64' }}
-        run |
+        run: |
           echo setup $CIBW_ARCH
         env:
           CIBW_ARCH: ${{ matrix.CIBW_ARCH }}
