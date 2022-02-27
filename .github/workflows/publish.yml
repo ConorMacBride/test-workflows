@@ -1,0 +1,60 @@
+name: Build and publish Python package
+
+on:
+  workflow_call:
+    inputs:
+      targets:
+        description: List of build targets
+        required: true
+        type: string
+
+jobs:
+
+  targets:
+    name: Load build targets
+    runs-on: ubuntu-latest
+    outputs:
+      sdist: ${{ steps.set-matrix.outputs.sdist }}
+      universal: ${{ steps.set-matrix.outputs.universal }}
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: 'ConorMacBride/test-workflows'
+      - id: set-outputs
+        run: python tools/load_build_targets.py ${{ input.targets }}
+        shell: sh
+
+  build_wheels:
+    name: Build platform-dependent wheels
+    needs: [targets]
+    runs-on: ${{ matrix.os }}
+    if: needs.targets.outputs.universal != 'true'
+    strategy:
+      matrix: ${{fromJSON(needs.targets.outputs.matrix)}}
+    steps:
+      - run: |
+          echo build $CIBW_BUILD
+          echo arch $CIBW_ARCH
+        env:
+          CIBW_BUILD: ${{ matrix.CIBW_BUILD }}
+          CIBW_ARCH: ${{ matrix.CIBW_ARCH }}
+      - run |
+          echo setup $CIBW_ARCH
+        if: matrix.CIBW_ARCH == "aarch64"
+        env:
+          CIBW_ARCH: ${{ matrix.CIBW_ARCH }}
+
+  build_sdist:
+    name: Build source distribution
+    if: needs.targets.outputs.sdist == 'true' && needs.targets.outputs.universal == 'false'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo sdist
+
+  build_sdist_and_wheel:
+    name: Build source and wheel distribution
+    if: needs.targets.outputs.universal != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo sdist universal
