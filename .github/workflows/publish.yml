@@ -14,9 +14,9 @@ jobs:
     name: Load build targets
     runs-on: ubuntu-latest
     outputs:
-      sdist: ${{ steps.set-matrix.outputs.sdist }}
-      universal: ${{ steps.set-matrix.outputs.universal }}
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      sdist: ${{ steps.set-outputs.outputs.sdist }}
+      universal: ${{ steps.set-outputs.outputs.universal }}
+      matrix: ${{ steps.set-outputs.outputs.matrix }}
     steps:
       - uses: actions/checkout@v2
         with:
