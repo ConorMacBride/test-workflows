@@ -38,6 +38,7 @@ else:
 # universal
 if "wheels_universal" in targets:
     print("::set-output name=universal::true")
+    print(f"::set-output name=matrix::false")
     exit(0)
 else:
     print("::set-output name=universal::false")
