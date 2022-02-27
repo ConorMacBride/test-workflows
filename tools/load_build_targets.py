@@ -4,11 +4,6 @@ import json
 import yaml
 
 
-targets = set(sys.argv[1])
-print(targets)
-targets = yaml.load(targets, Loader=yaml.BaseLoader)
-print(targets)
-
 MACHINE_TYPE = {
     "linux": "ubuntu-20.04",
     "macos": "macos-10.15",
@@ -29,6 +24,10 @@ def get_cibw_build(target):
         return ""
     return target
 
+
+# load list of targets
+targets = yaml.load(sys.argv[1], Loader=yaml.BaseLoader)
+print(targets)
 
 # sdist
 if "sdist" in targets:
