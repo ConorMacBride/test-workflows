@@ -22,7 +22,7 @@ jobs:
         with:
           repository: 'ConorMacBride/test-workflows'
       - id: set-outputs
-        run: python tools/load_build_targets.py ${{ input.targets }}
+        run: python tools/load_build_targets.py ${{ inputs.targets }}
         shell: sh
 
   build_wheels:
@@ -47,6 +47,7 @@ jobs:
 
   build_sdist:
     name: Build source distribution
+    needs: [targets]
     if: needs.targets.outputs.sdist == 'true' && needs.targets.outputs.universal == 'false'
     runs-on: ubuntu-latest
     steps:
@@ -54,6 +55,7 @@ jobs:
 
   build_sdist_and_wheel:
     name: Build source and wheel distribution
+    needs: [targets]
     if: needs.targets.outputs.universal != 'true'
     runs-on: ubuntu-latest
     steps:
