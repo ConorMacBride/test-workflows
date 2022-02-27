@@ -22,7 +22,7 @@ jobs:
         with:
           repository: 'ConorMacBride/test-workflows'
       - id: set-outputs
-        run: python tools/load_build_targets.py ${{ inputs.targets }}
+        run: python tools/load_build_targets.py "${{ inputs.targets }}"
         shell: sh
 
   build_wheels:

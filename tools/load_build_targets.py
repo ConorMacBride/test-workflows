@@ -3,7 +3,7 @@ import json
 
 
 targets = set(sys.argv[1:])
-targets = set({"sdist", "wheels_macos", "wheels_asdas_windows"})
+print(targets)
 
 MACHINE_TYPE = {
     "linux": "ubuntu-20.04",
