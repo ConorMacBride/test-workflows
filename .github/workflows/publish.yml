@@ -33,7 +33,7 @@ jobs:
     name: Build platform-dependent wheels
     needs: [targets]
     runs-on: ${{ matrix.os }}
-    if: needs.targets.outputs.universal != 'true'
+    if: needs.targets.outputs.matrix != 'false' && needs.targets.outputs.universal != 'true'
     strategy:
       matrix: ${{fromJSON(needs.targets.outputs.matrix)}}
     steps:

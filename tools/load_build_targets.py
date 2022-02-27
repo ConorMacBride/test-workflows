@@ -55,4 +55,7 @@ for target in targets:
         item["CIBW_ARCH"] = "aarch64"
     matrix["include"].append(item)
 print(json.dumps(matrix))
-print(f"::set-output name=matrix::{json.dumps(matrix)}")
+if len(matrix["include"]) == 0:
+    print(f"::set-output name=matrix::false")
+else:
+    print(f"::set-output name=matrix::{json.dumps(matrix)}")
