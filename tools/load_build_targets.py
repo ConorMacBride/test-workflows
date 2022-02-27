@@ -1,8 +1,12 @@
 import sys
 import json
 
+import yaml
 
-targets = set(sys.argv[1:])
+
+targets = set(sys.argv[1])
+print(targets)
+targets = yaml.load(targets, Loader=yaml.BaseLoader)
 print(targets)
 
 MACHINE_TYPE = {
