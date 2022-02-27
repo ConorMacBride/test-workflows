@@ -6,32 +6,35 @@ jobs:
   test_sdist:
     uses: ./.github/workflows/publish.yml
     with:
-      targets: sdist
+      targets: |
+        - sdist
   test_universal:
     uses: ./.github/workflows/publish.yml
     with:
-      targets: sdist universal
-        wheels_linux
-        wheels_macos
-        wheels_windows
+      targets: |
+        - sdist
+        - universal
+        - wheels_linux
+        - wheels_macos
+        - wheels_windows
   test_cibw_nosdist:
     uses: ./.github/workflows/publish.yml
     with:
       targets: |
-        wheels_linux
-        wheels_macos
-        wheels_windows
+        - wheels_linux
+        - wheels_macos
+        - wheels_windows
   test_cibw:
     uses: ./.github/workflows/publish.yml
     with:
       targets: |
-        sdist
-        wheels_linux
-        wheels_macos
-        wheels_windows
-        wheels_cp3[78]-manylinux*
-        wheels_cp38-macosx_x86_64
-        wheels_cp37-macosx_x86_64
-        wheels_cp3?-win32
-        wheels_cp3?-win_amd64
-        wheels_cp38-linux-aarch64
+        - sdist
+        - wheels_linux
+        - wheels_macos
+        - wheels_windows
+        - wheels_cp3[78]-manylinux*
+        - wheels_cp38-macosx_x86_64
+        - wheels_cp37-macosx_x86_64
+        - wheels_cp3?-win32
+        - wheels_cp3?-win_amd64
+        - wheels_cp38-linux-aarch64
