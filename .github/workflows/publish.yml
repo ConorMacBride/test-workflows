@@ -43,11 +43,11 @@ jobs:
         env:
           CIBW_BUILD: ${{ matrix.CIBW_BUILD }}
           CIBW_ARCH: ${{ matrix.CIBW_ARCH }}
-#      - run |
-#          echo setup $CIBW_ARCH
-#        if: ${{ matrix.CIBW_ARCH == 'aarch64' }}
-#        env:
-#          CIBW_ARCH: ${{ matrix.CIBW_ARCH }}
+      - run |
+          echo setup $CIBW_ARCH
+        if: matrix.CIBW_ARCH == 'aarch64'
+        env:
+          CIBW_ARCH: ${{ matrix.CIBW_ARCH }}
 
   build_sdist:
     name: Build source distribution
