@@ -33,7 +33,7 @@ jobs:
     name: Build ${{ matrix.CIBW_BUILD }} wheels
     needs: [targets]
     runs-on: ${{ matrix.os }}
-    if: needs.targets.outputs.matrix != 'false' && needs.targets.outputs.universal != 'true'
+    if: ${{ needs.targets.outputs.matrix != 'false' && needs.targets.outputs.universal != 'true' }}
     strategy:
       matrix: ${{fromJSON(needs.targets.outputs.matrix)}}
     steps:
@@ -53,7 +53,7 @@ jobs:
   build_sdist:
     name: Build source distribution
     needs: [targets]
-    if: needs.targets.outputs.sdist == 'true' && needs.targets.outputs.universal == 'false'
+    if: ${{ needs.targets.outputs.sdist == 'true' && needs.targets.outputs.universal == 'false' }}
     runs-on: ubuntu-latest
     steps:
       - run: echo sdist
@@ -61,7 +61,7 @@ jobs:
   build_sdist_and_wheel:
     name: Build source and wheel distribution
     needs: [targets]
-    if: needs.targets.outputs.universal != 'true'
+    if: ${{ needs.targets.outputs.universal == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - run: echo sdist universal
