@@ -13,7 +13,7 @@ jobs:
     with:
       targets: |
         - sdist
-        - universal
+        - wheels_universal
         - wheels_linux
         - wheels_macos
         - wheels_windows
