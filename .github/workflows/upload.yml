@@ -36,7 +36,7 @@ jobs:
 
   optional:
     name: Test upload with a skipped optional dependant
-    if: ${{ "a" == "b" }}
+    if: ${{ github.ref_name == 'miss' }}
     runs-on: ubuntu-latest
     steps:
       - run: echo success
