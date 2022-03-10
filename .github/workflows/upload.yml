@@ -32,9 +32,15 @@ jobs:
           UPLOAD_TO_PYPI: ${{ inputs.upload_to_pypi }}
           UPLOAD_TAG: ${{ startsWith(inputs.upload_to_pypi, 'refs/tags/') && github.event_name == 'push' && startsWith('refs/tags/1.0.0', inputs.upload_to_pypi) }}
 #          UPLOAD_TAG: ${{ startsWith(inputs.upload_to_pypi, 'refs/tags/') && github.event_name == 'push' && startsWith(github.event.ref, inputs.upload_to_pypi) }}
-      - run: "false"
 
-  optional:
+  optional_pass:
+    name: Test upload with a skipped optional dependant
+    if: ${{ github.ref_name == 'main' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo success
+
+  optional_skip:
     name: Test upload with a skipped optional dependant
     if: ${{ github.ref_name == 'miss' }}
     runs-on: ubuntu-latest
@@ -43,22 +49,22 @@ jobs:
 
   upload:
     name: Upload to PyPI
-    needs: [decide, optional]
+    needs: [decide, optional_pass, optional_skip]
     if: |
       always() &&
       needs.decide.outputs.upload_to_pypi == 'true' &&
-      needs.decide.result != 'failure' && needs.optional.result != 'failure'
+      needs.optional_pass.result != 'failure' && needs.optional_skip.result != 'failure'
     runs-on: ubuntu-latest
     steps:
       - run: echo Uploading because ${{ needs.decide.outputs.upload_to_pypi }}
 
   no_upload:
     name: No Upload to PyPI
-    needs: [decide, optional]
+    needs: [decide, optional_pass, optional_skip]
     if: |
       always() &&
       needs.decide.outputs.upload_to_pypi != 'true' &&
-      needs.decide.result != 'failure' && needs.optional.result != 'failure'
+      needs.optional_pass.result != 'failure' && needs.optional_skip.result != 'failure'
     runs-on: ubuntu-latest
     steps:
       - run: echo Not uploading because ${{ needs.decide.outputs.upload_to_pypi }}
