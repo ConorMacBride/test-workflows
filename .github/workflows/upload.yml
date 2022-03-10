@@ -1,0 +1,50 @@
+name: Upload to PyPI
+
+on:
+  workflow_call:
+    inputs:
+      upload_to_pypi:
+        description: A condition specifying whether to upload to PyPI
+        required: false
+        default: 'refs/tags/v'
+        type: string
+
+jobs:
+
+  decide:
+    name: Decide to Upload
+    runs-on: ubuntu-latest
+    outputs:
+      upload_to_pypi: ${{ steps.set-output.outputs.upload_to_pypi }}
+    steps:
+      - run: echo ${{ inputs.upload_to_pypi }}
+      - id: set-output
+        run: |
+          echo UPLOAD_TO_PYPI is $UPLOAD_TO_PYPI
+          echo UPLOAD_TAG is $UPLOAD_TAG
+          if [ $UPLOAD_TO_PYPI == "true" ] || [ $UPLOAD_TAG == "true" ];
+          then
+            echo "::set-output name=upload_to_pypi::true"
+          else
+            echo "::set-output name=upload_to_pypi::false"
+          fi
+        env:
+          UPLOAD_TO_PYPI: ${{ inputs.upload_to_pypi }}
+          UPLOAD_TAG: ${{ startsWith(inputs.upload_to_pypi, 'refs/tags/') && github.event_name == 'push' && startsWith('refs/tags/v1.0.0', inputs.upload_to_pypi) }}
+#          UPLOAD_TAG: ${{ startsWith(inputs.upload_to_pypi, 'refs/tags/') && github.event_name == 'push' && startsWith(github.event.ref, inputs.upload_to_pypi) }}
+
+  upload:
+    name: Upload to PyPI
+    needs: [decide]
+    if: ${{ needs.decide.outputs.upload_to_pypi == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo Uploading because ${{ needs.decide.outputs.upload_to_pypi }}
+
+  no_upload:
+    name: No Upload to PyPI
+    needs: [decide]
+    if: ${{ needs.decide.outputs.upload_to_pypi != 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo Not uploading because ${{ needs.decide.outputs.upload_to_pypi }}

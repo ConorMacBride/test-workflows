@@ -1,0 +1,37 @@
+on:
+  push:
+  pull_request:
+
+jobs:
+  bool_true:
+    uses: ./.github/workflows/upload.yml
+    with:
+      upload_to_pypi: true
+  bool_false:
+    uses: ./.github/workflows/upload.yml
+    with:
+      upload_to_pypi: false
+  str_true:
+    uses: ./.github/workflows/upload.yml
+    with:
+      upload_to_pypi: 'true'
+  str_false:
+    uses: ./.github/workflows/upload.yml
+    with:
+      upload_to_pypi: 'false'
+  tag:
+    uses: ./.github/workflows/upload.yml
+    with:
+      upload_to_pypi: refs/tags/v
+  condition_true:
+    uses: ./.github/workflows/upload.yml
+    with:
+      upload_to_pypi: ${{ github.ref_name == 'main' }}
+  condition_false:
+    uses: ./.github/workflows/upload.yml
+    with:
+      upload_to_pypi: ${{ github.ref_name == 'not' }}
+  invalid:
+    uses: ./.github/workflows/upload.yml
+    with:
+      upload_to_pypi: 'invalid'
