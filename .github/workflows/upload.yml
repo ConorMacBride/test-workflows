@@ -30,7 +30,7 @@ jobs:
           fi
         env:
           UPLOAD_TO_PYPI: ${{ inputs.upload_to_pypi }}
-          UPLOAD_TAG: ${{ startsWith(inputs.upload_to_pypi, 'refs/tags/') && github.event_name == 'push' && startsWith('refs/tags/v1.0.0', inputs.upload_to_pypi) }}
+          UPLOAD_TAG: ${{ startsWith(inputs.upload_to_pypi, 'refs/tags/') && github.event_name == 'push' && startsWith('refs/tags/1.0.0', inputs.upload_to_pypi) }}
 #          UPLOAD_TAG: ${{ startsWith(inputs.upload_to_pypi, 'refs/tags/') && github.event_name == 'push' && startsWith(github.event.ref, inputs.upload_to_pypi) }}
 
   upload:
