@@ -13,6 +13,7 @@ jobs:
       - run: |
           pip install -e ".[docs]"
           cd docs/
+          pip install -r requirements.txt
           sphinx-build -j auto --color -W --keep-going -b html -d _build/.doctrees -D plot_gallery=0 . _build/html
       - uses: actions/upload-artifact@v3
         with:
