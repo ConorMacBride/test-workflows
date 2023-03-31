@@ -5,17 +5,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          repository: 'ConorMacBride/mcalf'
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-      - run: |
-          pip install -e ".[docs]"
-          cd docs/
-          pip install -r requirements.txt
-          sphinx-build -j auto --color -W --keep-going -b html -d _build/.doctrees -D plot_gallery=0 . _build/html
+        #        with:
+        #  repository: 'ConorMacBride/mcalf'
+        #      - uses: actions/setup-python@v4
+        #        with:
+        #          python-version: '3.10'
+        #      - run: |
+        # pip install -e ".[docs]"
+        # cd docs/
+        # pip install -r requirements.txt
+        # sphinx-build -j auto --color -W --keep-going -b html -d _build/.doctrees -D plot_gallery=0 . _build/html
       - uses: actions/upload-artifact@v3
         with:
           name: mcalf-docs
-          path: $GITHUB_WORKSPACE/docs/_build/html
+          path: $GITHUB_WORKSPACE/docs/html
