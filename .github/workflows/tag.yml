@@ -28,7 +28,7 @@ jobs:
           # than the default GitHub Actions token, otherwise the publish
           # workflow won't be triggered. The personal access token should
           # be given 'Contents: read and write' permissions.
-          #github_token: ${{ secrets.GH_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           custom_tag: ${{ steps.tag_name.outputs.date }}
   publish:
     name: Publish tag
