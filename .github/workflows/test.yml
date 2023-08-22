@@ -10,4 +10,4 @@ jobs:
         - cp311-manylinux_x86_64
         - cp312-manylinux_x86_64
       env: |
-        CIBW_ENVIRONMENT: 'PIP_PRE=$(if echo "$GITHUB_JOB" | grep -q "cp312"; then echo 1; else echo 0; fi)'
+        CIBW_ENVIRONMENT: 'PIP_PRE=$(if echo "$GITHUB_JOB" | grep -q "cp312"; then echo 1; else echo "$GITHUB_JOB"; fi)'
