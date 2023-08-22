@@ -1,13 +1,13 @@
 name: basic-test
 on: [push]
 jobs:
-  test:
-    runs-on: ARM64
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          repository: 'sunpy/sunpy'
-      - run: python3 -m venv venv
-      - run: . venv/bin/activate
-      - run: python3 -m pip install "tox<4"
-      - run: python3 -m tox -e py310
+  build_and_publish:
+    uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish.yml@v1
+    with:
+      test_extras: test
+      test_command: pytest --pyargs mypackage
+      targets: |
+        - cp311-manylinux_x86_64
+        - cp312-manylinux_x86_64
+      env: |
+        CIBW_ENVIRONMENT: 'PIP_PRE=$( if [ "${CIBW_BUILD}" = "cp312"* ]; then echo 1; else echo 0; fi )'
